@@ -12,7 +12,8 @@ export const siteConfig = {
   ],
   links: {
     twitter: "https://twitter.com/derscodes",
-    github: "https://github.com/wispyco",
+    github: "https://github.com/wispyco/uipatternfactory",
+    githubUi: "https://github.com/wispyco/uipatternfactory",
     // docs: "https://ui.shadcn.com",
   },
 }

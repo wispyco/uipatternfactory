@@ -17,6 +17,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <script defer data-domain="uipatternfactory.com" src="https://plausible.io/js/script.js"></script>
       <body className={inter.className}>
         <ThemeProvider
           attribute="class"
