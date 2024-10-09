@@ -25,7 +25,7 @@ export const metadata: Metadata = {
 
 export default function IndexPage() {
   return (
-    <div className="flex min-h-screen flex-col">
+    <div className="flex min-h-screen flex-col p-10">
       <SiteHeader />
       <main className="flex-1">
         <section className="container grid items-center gap-6 pb-8 pt-6 md:py-10">

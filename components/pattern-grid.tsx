@@ -7,8 +7,22 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import { Input } from "@/components/ui/input"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-
+import { Link } from "lucide-react";
+import NavOne from "@/components/596-experiments/one/one";
+import CircularNav from "@/components/596-experiments/two/two";
 const patterns = [
+  {
+    title: "Studio 596",
+    link: "https://www.596.studio/experiments/one",
+    description: "One",
+    component: <NavOne />
+  },
+  {
+    title: "Studio 596",
+    link: "https://www.596.studio/experiments/two",
+    description: "Two",
+    component: <CircularNav />
+  },
   {
     title: "Overlay",
     description: "Show secondary elements and important messages in a layer on top of the page.",
@@ -83,7 +97,7 @@ export function PatternGrid() {
         {patterns.map((pattern, index) => (
           <Card key={index}>
             <CardHeader>
-              <CardTitle>{pattern.title}</CardTitle>
+              <CardTitle>{pattern.link ? <a className="hover:underline text-blue-500 inline-flex items-center" href={pattern.link}>{pattern.title}<Link className="ml-2" /></a> : pattern.title}</CardTitle>
               <CardDescription>{pattern.description}</CardDescription>
             </CardHeader>
             <CardContent>{pattern.component}</CardContent>

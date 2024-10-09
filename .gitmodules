@@ -1,0 +1,3 @@
+[submodule "components/596-experiments"]
+	path = components/596-experiments
+	url = https://github.com/ronanpdh/596-experiments.git
