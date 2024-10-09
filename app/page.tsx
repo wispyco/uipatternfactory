@@ -1,11 +1,10 @@
 import { Metadata } from "next"
 import Link from "next/link"
 
-import { siteConfig } from "@/config/site"
-import { buttonVariants } from "@/components/ui/button"
-import { MainNav } from "@/components/main-nav"
-import { SiteHeader } from "@/components/site-header"
 import { PatternGrid } from "@/components/pattern-grid"
+import { SiteHeader } from "@/components/site-header"
+import { buttonVariants } from "@/components/ui/button"
+import { siteConfig } from "@/config/site"
 
 export const metadata: Metadata = {
   title: {
