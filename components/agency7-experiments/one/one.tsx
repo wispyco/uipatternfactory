@@ -46,7 +46,7 @@ const KeyboardKey = ({ label, isGreen, width = 1 }: { label: string; isGreen: bo
 
 export default function Component() {
     return (
-        <div className="flex items-center justify-center m-24">
+        <div className="flex items-center justify-center">
             <div className="bg-gray-200 p-4 rounded-lg shadow-xl" style={{ width: '600px' }}>
                 <div className="space-y-1">
                     {keys.map((row, rowIndex) => (
