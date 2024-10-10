@@ -10,6 +10,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Link } from "lucide-react";
 import NavOne from "@/components/596-experiments/one/one";
 import CircularNav from "@/components/596-experiments/two/two";
+import IntegrationHub from "./agency7/one/one"
 const patterns = [
   {
     title: "Studio 596",
@@ -22,6 +23,12 @@ const patterns = [
     link: "https://www.596.studio/experiments/two",
     description: "Two",
     component: <CircularNav />
+  },
+  {
+    title: "Agency 7",
+    link: "https://agency7.ca/experiments/one",
+    description: "Animated Keyboard",
+    component: <IntegrationHub />
   },
   {
     title: "Overlay",
