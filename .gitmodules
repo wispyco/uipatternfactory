@@ -1,3 +1,6 @@
 [submodule "components/596-experiments"]
 	path = components/596-experiments
 	url = https://github.com/ronanpdh/596-experiments.git
+[submodule "components/agency7-ca"]
+	path = components/agency7-ca
+	url = git@github.com:wispyco/agency7-ca.git
