@@ -1,116 +1,177 @@
 "use client"
 
-import React from "react"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
-import { Input } from "@/components/ui/input"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Link } from "lucide-react";
-import NavOne from "@/components/596-experiments/one/one";
-import CircularNav from "@/components/596-experiments/two/two";
+import NavOne from "@/components/596-experiments/one/one"
+import CircularNav from "@/components/596-experiments/two/two"
 import IntegrationHub from "@/components/agency7-experiments/one/one"
+import { CodeBlock } from '@/components/code-block'
+import { DataTable } from "@/components/data-table"
+import { Overlay } from "@/components/overlay"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Link } from "lucide-react"
+import { useRouter } from "next/navigation"
+import React, { useEffect } from "react"
+import { TabsA } from "@/components/tabs"
 const patterns = [
   {
     title: "Studio 596",
     link: "https://www.596.studio/experiments/one",
-    description: "One",
-    component: <NavOne />
+    description: "Animated Navigation",
+    component: <NavOne />,
+    filePath: "components/596-experiments/one/one.tsx",
+    seo: "animated-navigation"
   },
   {
     title: "Studio 596",
     link: "https://www.596.studio/experiments/two",
-    description: "Two",
-    component: <CircularNav />
+    description: "AnimatedCircular Navigation",
+    component: <CircularNav />,
+    filePath: "components/596-experiments/two/two.tsx",
+    seo: "animated-circular-navigation"
   },
   {
     title: "Agency 7",
     link: "https://agency7.ca/experiments/one",
     description: "Animated Keyboard",
-    component: <IntegrationHub />
+    component: <IntegrationHub />,
+    filePath: "components/agency7-experiments/one/one.tsx",
+    seo: "animated-keyboard"
   },
   {
     title: "Overlay",
     description: "Show secondary elements and important messages in a layer on top of the page.",
-    component: (
-      <Dialog>
-        <DialogTrigger asChild>
-          <Button variant="outline">Open Overlay</Button>
-        </DialogTrigger>
-        <DialogContent className="sm:max-w-[425px]">
-          <DialogHeader>
-            <DialogTitle>Overlay Example</DialogTitle>
-            <DialogDescription>
-              This is an example of an overlay using the Dialog component.
-            </DialogDescription>
-          </DialogHeader>
-          <div className="grid gap-4 py-4">
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Input id="name" placeholder="John Doe" className="col-span-3" />
-            </div>
-          </div>
-        </DialogContent>
-      </Dialog>
-    ),
+    component: <Overlay />,
+    filePath: "components/overlay.tsx",
+    seo: "overlay"
   },
   {
     title: "Data Table",
     description: "Show collections with multiple attributes in a table to make the data easy to scan, analyze, and customize.",
-    component: (
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead>Name</TableHead>
-            <TableHead>Email</TableHead>
-            <TableHead>Role</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          <TableRow>
-            <TableCell>Alice Johnson</TableCell>
-            <TableCell>alice@example.com</TableCell>
-            <TableCell>Developer</TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell>Bob Smith</TableCell>
-            <TableCell>bob@example.com</TableCell>
-            <TableCell>Designer</TableCell>
-          </TableRow>
-        </TableBody>
-      </Table>
-    ),
+    component: <DataTable />,
+    filePath: "components/data-table.tsx",
+    seo: "data-table"
   },
   {
     title: "Tabs",
     description: "Use tabs to alternate between views within the same context, not to navigate to different areas.",
-    component: (
-      <Tabs defaultValue="account" className="w-[400px]">
-        <TabsList>
-          <TabsTrigger value="account">Account</TabsTrigger>
-          <TabsTrigger value="password">Password</TabsTrigger>
-        </TabsList>
-        <TabsContent value="account">Make changes to your account here.</TabsContent>
-        <TabsContent value="password">Change your password here.</TabsContent>
-      </Tabs>
-    ),
+    component: <TabsA />,
+    filePath: "components/tabs.tsx",
+    seo: "tabs"
   },
 ]
 
-export function PatternGrid() {
+export function PatternGrid({ params }: { params: { p: string } }) {
+  const [patternsWithCode, setPatternsWithCode] = React.useState<Array<{
+    title: string;
+    link?: string;
+    description: string;
+    component: React.JSX.Element;
+    filePath?: string;
+    code?: string;
+    seo?: string;
+  }>>([]);
+
+  const [showCode, setShowCode] = React.useState<string | null>(null);
+
+  const CodeStringFetcher = async (filePath: string) => {
+    try {
+      const response = await fetch('/api/codeConvert', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ filePath: filePath }),
+      });
+
+      if (!response.ok) {
+        console.error('Error fetching code:', response.statusText);
+        return null;
+      }
+
+      const code = await response.json();
+      return code.code;
+    } catch (error) {
+      console.error('Failed to fetch code:', error);
+      return null;
+    }
+  };
+
+  React.useEffect(() => {
+    const fetchCodes = async () => {
+      const updatedPatterns = await Promise.all(
+        patterns.map(async (pattern) => {
+          if (pattern.filePath) {
+            const code = await CodeStringFetcher(pattern.filePath);
+            return { ...pattern, code };
+          }
+          return pattern;
+        })
+      );
+      setPatternsWithCode(updatedPatterns);
+    };
+
+    fetchCodes();
+  }, []);
+
+  const router = useRouter()
+
+  const openCode = (seo: string) => {
+    console.log(seo);
+    if (showCode === seo) {
+      setShowCode(null); // Hide the code if it's already shown
+    } else {
+      router.push(`/p=${seo}`);
+      setShowCode(seo); // Show the new code
+    }
+  }
+
+
+  useEffect(() => {
+    const query = window.location.pathname;
+    console.log(query);
+    const match = query.match(/p=([^&]+)/);
+    console.log(match);
+    if (match) {
+      setShowCode(match[1]); // Set the showCode state to the value after 'p='
+    }
+  }, []);
+
   return (
     <div className="container py-8">
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {patterns.map((pattern, index) => (
-          <Card key={index}>
+        {patternsWithCode.map((pattern, index) => (
+          <Card className="" key={index}>
             <CardHeader>
-              <CardTitle>{pattern.link ? <a className="hover:underline text-blue-500 inline-flex items-center" href={pattern.link}>{pattern.title}<Link className="ml-2" /></a> : pattern.title}</CardTitle>
+              <CardTitle>
+                {pattern.link ? (
+                  <a
+                    className="hover:underline text-blue-500 inline-flex items-center"
+                    href={pattern.link}
+                  >
+                    {pattern.title}
+                    <Link className="ml-2" />
+                  </a>
+                ) : (
+                  pattern.title
+                )}
+              </CardTitle>
               <CardDescription>{pattern.description}</CardDescription>
             </CardHeader>
             <CardContent>{pattern.component}</CardContent>
+            <CardContent >
+              <button className="bg-blue-500 text-white p-2 rounded-md" onClick={() => openCode(pattern?.seo || '')}>Open Code</button>
+
+              {showCode === pattern?.seo && (
+                <div className="overflow-y-auto fixed top-[50%] left-[50%] transform -translate-x-[50%] -translate-y-[50%] w-3/4 h-[650px] rounded-md z-50 bg-black">
+                  <button className="bg-white text-black p-2 rounded-md absolute top-5 right-5" onClick={() => openCode(pattern?.seo || '')}>Close Code</button>
+
+                  <CodeBlock code={pattern.code || ''} />
+                </div>
+
+              )}
+            </CardContent>
           </Card>
         ))}
       </div>
     </div>
-  )
+  );
 }
