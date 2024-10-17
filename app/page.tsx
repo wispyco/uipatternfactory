@@ -23,7 +23,7 @@ export const metadata: Metadata = {
   },
 }
 
-export default function IndexPage({ params }: { params: { p: string } }) {
+export default function IndexPage() {
   return (
     <div className="flex min-h-screen flex-col p-10">
       <SiteHeader />
@@ -57,7 +57,7 @@ export default function IndexPage({ params }: { params: { p: string } }) {
             </Link>
           </div>
         </section>
-        <PatternGrid params={params} />
+        <PatternGrid />
       </main>
     </div>
   )

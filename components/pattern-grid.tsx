@@ -59,7 +59,7 @@ const patterns = [
   },
 ]
 
-export function PatternGrid({ params }: { params: { p: string } }) {
+export function PatternGrid() {
   const [patternsWithCode, setPatternsWithCode] = React.useState<Array<{
     title: string;
     link?: string;
@@ -74,7 +74,7 @@ export function PatternGrid({ params }: { params: { p: string } }) {
 
   const CodeStringFetcher = async (filePath: string) => {
     try {
-      const response = await fetch('/api/codeConvert', {
+      const response = await fetch('/api/code-convert', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
