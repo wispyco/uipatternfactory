@@ -3,7 +3,6 @@ import path from 'path';
 import { NextRequest, NextResponse } from 'next/server';
 
 // Explicitly mark the route as dynamic
-export const dynamic = "force-dynamic";
 
 export async function POST(req: NextRequest) {
     const { filePath } = await req.json();
@@ -14,7 +13,5 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({ code }, { status: 200 });
 };
-
-//export const dynamic = "force-static";
 
 
