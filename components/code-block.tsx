@@ -8,11 +8,6 @@ interface CodeBlockProps {
 
 export const CodeBlock: React.FC<CodeBlockProps> = ({ code, language = 'javascript' }) => {
 
-
-
-  console.log(code)
-
-  // const codeString = code.then((code) => code);
   return (
     <ReactCodeBlock
       text={code}
