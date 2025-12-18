@@ -3,6 +3,8 @@ import Link from "next/link"
 
 import { PatternGrid } from "@/components/pattern-grid"
 import { SiteHeader } from "@/components/site-header"
+import { SponsorBanner } from "@/components/sponsor-banner"
+import { OmiBanner } from "@/components/omi-banner"
 import { buttonVariants } from "@/components/ui/button"
 import { siteConfig } from "@/config/site"
 
@@ -52,6 +54,10 @@ export default function IndexPage() {
               GitHub
             </Link>
           </div>
+        </section>
+        <section className="container space-y-4 pb-8">
+          <SponsorBanner />
+          <OmiBanner />
         </section>
         <PatternGrid />
       </main>
